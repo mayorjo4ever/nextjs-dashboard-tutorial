@@ -9,11 +9,17 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
+import { updateInvoice } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
+
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  return (
-    <form>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(createInvoice, initialState);
+ 
+  return <form action={dispatch}>
+     <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
@@ -46,7 +52,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <input required
                 id="amount"
                 name="amount"
                 type="number"
@@ -109,6 +115,13 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         </Link>
         <Button type="submit">Create Invoice</Button>
       </div>
+
+  </form>;
+
+/*
+  return (
+    <form action={createInvoice}>
+     
     </form>
-  );
+  );*/
 }
